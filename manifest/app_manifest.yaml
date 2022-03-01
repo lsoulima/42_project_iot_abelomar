@@ -1,16 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: AppProject
 metadata:
-  name: dev
-  namespace: argocd
+  name: argocd-autodep-project
+  labels:
+    app: argocd-autodep
 spec:
-  destination:
-    namespace: dev
+  sourceRepos:
+  - "https://github.com/fail2ban1337/abelomar.git"
+  destinations:
+  - namespace: dev
     server: https://kubernetes.default.svc
-  project: default
-  source:
-    repoURL: https://github.com/fail2ban1337/abelomar.git
-    path: .
-    targetRevision: HEAD
-  syncPolicy:
-    automated: {}
+  # Enables namespace orphaned resource monitoring.
+  orphanedResources:
